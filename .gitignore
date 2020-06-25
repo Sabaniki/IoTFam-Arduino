@@ -3,3 +3,4 @@ CMakeListsPrivate.txt
 
 # Project exclude paths
 /cmake-build-esp_wroom_02/
+src/secrets.h
