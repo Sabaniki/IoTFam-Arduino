@@ -1,7 +1,5 @@
 #include "Iot.h"
 
-#include <utility>
-
 static void defaultCallback(char *_topic, byte *payload, unsigned int length) {
     Serial.print("Message arrived [");
     Serial.print(_topic);
@@ -12,31 +10,29 @@ static void defaultCallback(char *_topic, byte *payload, unsigned int length) {
     }
     Serial.println();
 }
-
 void Iot::reconnect() {
-    while (!Iot::mqtt.connected()) {
+    while (!PubSubClient::connected()) {
         Serial.print("Attempting MQTT connection... ");
-        if (Iot::mqtt.connect(Iot::name)) {
+        if (PubSubClient::connect(Iot::name)) {
             Serial.println("connected");
             char noticeMessage[64];
             snprintf(noticeMessage, 64, "from %s ----reconnect", name);
-            mqtt.publish("server", noticeMessage);
+            PubSubClient::publish("server", noticeMessage);
         } else {
             Serial.print("failed, rc=");
-            Serial.print(mqtt.state());
+            Serial.print(state());
             Serial.println(" try again in 5 seconds");
             delay(5000);
         }
     }
 }
 
-Iot::Iot(char *name, char *topic, WiFiClient &wiFiClient) :
-        mqtt(wiFiClient),
-        name(name),
-        topic(topic) {
-    mqtt.setServer(MQTT_SERVER_IP, MQTT_SERVER_PORT);
-    mqtt.setCallback(defaultCallback);
-    while (!mqtt.connected()) reconnect();
+Iot::Iot(char *name,  WiFiClient &wiFiClient) :
+        PubSubClient(wiFiClient),
+        name(name) {
+    PubSubClient::setServer(MQTT_SERVER_IP, MQTT_SERVER_PORT);
+    PubSubClient::setCallback(defaultCallback);
+    while (!PubSubClient::connected()) Iot::reconnect();
 }
 
 void Iot::sendMessage(Iot &messageTo, char *message) {
@@ -44,7 +40,8 @@ void Iot::sendMessage(Iot &messageTo, char *message) {
     // 同じ内容をラズパイにも送信する処理
 }
 
-void Iot::setCallback(std::function<void(char *, uint8_t *, unsigned int)> callback) {
-    mqtt.setCallback(std::move(callback));
+void Iot::publish(const char *topic, const char* payload) {
+    PubSubClient::publish(topic, payload);
+//    PubSubClient::publish()
 }
 

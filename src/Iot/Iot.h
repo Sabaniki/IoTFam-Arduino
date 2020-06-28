@@ -11,17 +11,17 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include "secrets.h"
-class Iot {
+class Iot : private PubSubClient {
 private:
-    PubSubClient mqtt;
-    char* topic;
+    // char* topic;
     char* name;
     void reconnect();
 
 public:
-    Iot(char* name, char* topic, WiFiClient& client);
+    Iot(char* name, WiFiClient& client);
     void sendMessage(Iot &messageTo, char* message);
-    void setCallback(std::function<void(char *,uint8_t *,unsigned int)> callback);
+    // PusSubClientにアップキャストしてpublishを呼んだらダメ。
+    void publish(const char* topic, const char* payload);
 };
 
 
