@@ -30,18 +30,8 @@ void Iot::reconnect() {
 Iot::Iot(char *name,  WiFiClient &wiFiClient) :
         PubSubClient(wiFiClient),
         name(name) {
-    PubSubClient::setServer(MQTT_SERVER_IP, MQTT_SERVER_PORT);
+    PubSubClient::setServer(RASPI_IP, MQTT_SERVER_PORT);
     PubSubClient::setCallback(defaultCallback);
     while (!PubSubClient::connected()) Iot::reconnect();
-}
-
-void Iot::sendMessage(Iot &messageTo, char *message) {
-    // 別のESPに送信する処理
-    // 同じ内容をラズパイにも送信する処理
-}
-
-void Iot::publish(const char *topic, const char* payload) {
-    PubSubClient::publish(topic, payload);
-//    PubSubClient::publish()
 }
 

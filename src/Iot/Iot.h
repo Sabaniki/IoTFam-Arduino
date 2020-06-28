@@ -19,9 +19,6 @@ private:
 
 public:
     Iot(char* name, WiFiClient& client);
-    void sendMessage(Iot &messageTo, char* message);
-    // PusSubClientにアップキャストしてpublishを呼んだらダメ。
-    void publish(const char* topic, const char* payload);
 };
 
 
