@@ -35,7 +35,7 @@ void callback(char *topic, byte *payload, unsigned int length);
 
 const char *ssid = SSID;
 const char *password = WIFI_PASSWORD;
-const char *mqtt_server = MQTT_SERVER;
+const char *mqtt_server = MQTT_SERVER_IP;
 
 WiFiClient espClient;
 PubSubClient client(espClient);
