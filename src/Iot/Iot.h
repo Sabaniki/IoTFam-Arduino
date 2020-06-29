@@ -11,14 +11,15 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include "secrets.h"
-class Iot : private PubSubClient {
+class Iot : public PubSubClient {
 private:
-    // char* topic;
-    char* name;
-    void reconnect();
+    const char* name;
 
 public:
-    Iot(char* name, WiFiClient& client);
+    Iot(const char* name, WiFiClient& client);
+    static void setupWifi();
+    void reconnect();
+    virtual void update() = 0;
 };
 
 

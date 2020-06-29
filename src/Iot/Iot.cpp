@@ -1,8 +1,8 @@
 #include "Iot.h"
 
-static void defaultCallback(char *_topic, byte *payload, unsigned int length) {
+static void defaultCallback(char *topic, byte *payload, unsigned int length) {
     Serial.print("Message arrived [");
-    Serial.print(_topic);
+    Serial.print(topic);
     Serial.print("] ");
     Serial.print("payload (print as string): ");
     for (int i = 0; i < length; i++) {
@@ -10,6 +10,7 @@ static void defaultCallback(char *_topic, byte *payload, unsigned int length) {
     }
     Serial.println();
 }
+
 void Iot::reconnect() {
     while (!PubSubClient::connected()) {
         Serial.print("Attempting MQTT connection... ");
@@ -27,11 +28,30 @@ void Iot::reconnect() {
     }
 }
 
-Iot::Iot(char *name,  WiFiClient &wiFiClient) :
+Iot::Iot(const char *name, WiFiClient &wiFiClient) :
         PubSubClient(wiFiClient),
         name(name) {
     PubSubClient::setServer(RASPI_IP, MQTT_SERVER_PORT);
     PubSubClient::setCallback(defaultCallback);
     while (!PubSubClient::connected()) Iot::reconnect();
+}
+
+void Iot::setupWifi() {
+    delay(10);
+    Serial.println();
+    Serial.print("Connecting to ");
+    Serial.println(SSID);
+
+    WiFi.begin(SSID, WIFI_PASSWORD);
+
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+    }
+
+    Serial.println("");
+    Serial.println("WiFi connected");
+    Serial.println("IP address: ");
+    Serial.println(WiFi.localIP());
 }
 
