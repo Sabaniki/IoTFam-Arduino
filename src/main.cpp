@@ -1,17 +1,18 @@
+#include "Arduino.h"
+#include <Iot/Thermometer/Thermometer.h>
 #include <ESP8266WiFi.h>
-#include <PubSubClient.h>
-#include <Iot/Aircon/Aircon.h>
 
 WiFiClient wiFiClient;
-Aircon *aircon = nullptr;
+Thermometer *thermometer = nullptr;
 
 void setup() {
     Serial.begin(9600);
+    Wire.begin();
     Iot::setupWifi();
-    aircon = new Aircon(wiFiClient);
+    thermometer = new Thermometer(wiFiClient);
 }
 
 void loop() {
-    aircon->update();
+    thermometer->update();
     delay(2000);
 }

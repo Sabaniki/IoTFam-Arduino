@@ -1,5 +1,6 @@
 #include "Iot.h"
 
+
 static void defaultCallback(char *topic, byte *payload, unsigned int length) {
     Serial.print("Message arrived [");
     Serial.print(topic);
