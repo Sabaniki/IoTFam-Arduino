@@ -3,6 +3,7 @@
 
 
 #include <Iot/Iot.h>
+#include <IRremoteESP8266.h>
 
 class Aircon: Iot {
 private:

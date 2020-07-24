@@ -7,6 +7,7 @@
 //
 //void setup() {
 //    Serial.begin(9600);
+//    Wire.begin();
 //    Iot::setupWifi();
 //    thermometer = new Thermometer(wiFiClient);
 //}
