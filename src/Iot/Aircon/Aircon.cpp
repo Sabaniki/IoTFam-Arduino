@@ -1,8 +1,10 @@
 #include "Aircon.h"
 
 void Aircon::callback(char *topic, const byte *payload, unsigned int length) {
-    if ((int)payload[0] > 25) Serial.println("warm! turn on air-con!");
-    else Serial.println("not warm. good.");
+    if(strcmp(topic, "iot/temp") == 0){
+        if ((int)payload[0] > 25) Serial.println("warm! turn on air-con!");
+        else Serial.println("not warm. good.");
+    }
 }
 
 Aircon::Aircon(WiFiClient &wiFiClient) : Iot("Aircon", wiFiClient) {

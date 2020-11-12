@@ -5,11 +5,13 @@
 #include <Iot/Iot.h>
 #include <IRremoteESP8266.h>
 
-class Aircon: Iot {
+class Aircon : Iot {
 private:
     static void callback(char *topic, const byte *payload, unsigned int length);
+
 public:
     explicit Aircon(WiFiClient &wiFiClient);
+
     void update() override;
 };
 

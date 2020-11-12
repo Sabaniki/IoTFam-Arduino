@@ -20,6 +20,7 @@ class Thermometer: Iot {
 private:
     static void callback(char *topic, const byte *payload, unsigned int length);
     float tempAndHumVal[2]{};
+    char* message;
     DHT dht;
 
 public:
